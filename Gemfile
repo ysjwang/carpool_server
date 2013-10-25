@@ -40,6 +40,9 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'factory_girl_rails', '~> 4.2.1'
+
+
 group :development do
   gem 'annotate'
   gem 'quiet_assets'
@@ -47,7 +50,6 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14.0'
-  gem 'factory_girl_rails', '~> 4.2.1'
 end
 
 group :test do
