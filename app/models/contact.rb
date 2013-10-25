@@ -11,4 +11,19 @@
 #
 
 class Contact < ActiveRecord::Base
+  belongs_to :user
+
+  validates :user_id, presence: true
+  validate :validate_first_or_last_name_present
+
+
+  private
+
+  def validate_first_or_last_name_present
+    if first_name.blank? && last_name.blank? 
+      errors.add(:first_name, "or last name must be set.")
+      errors.add(:last_name, "or last name must be set")
+
+    end
+  end
 end

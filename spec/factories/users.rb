@@ -10,5 +10,15 @@ FactoryGirl.define do
     password { 'password' }
     password_confirmation { 'password' }
 
+
+    factory :user_with_contacts do
+      after(:create) do |user|
+        5.times do 
+          user.contacts << build(:contact, user: user)
+        end
+
+      end
+    end
+
   end
 end
