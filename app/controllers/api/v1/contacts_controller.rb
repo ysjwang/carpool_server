@@ -2,14 +2,14 @@ class API::V1::ContactsController < ApplicationController
 
   respond_to :html, :xml, :json, :js
 
-  
+  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/javascript' || c.request.format == 'application/json' }
 
 
   def show
   end
 
   def index
-    @contacts = Contact.all
+    @contacts = Contact.all.order('id')
     respond_with(@contacts) do |format|
       format.js  { render json: @contacts, callback: params[:callback] }
     end
@@ -23,11 +23,13 @@ class API::V1::ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     respond_to do |format|
       if @contact.update(contact_params)
-        @contacts = Contact.all
-        format.js { render json: @contacts, callback: param[:callback] }
+        puts "update succeed"
+        @contacts = Contact.all.order('id')
+        format.js { render json: @contacts, callback: params[:callback] }
       else
-        @contacts = Contact.all
-        format.js { render json: @contacts, callback: param[:callback] }
+        puts "update failed"
+        @contacts = Contact.all.order('id')
+        format.js { render json: @contacts, callback: params[:callback] }
       end
     end
   end

@@ -62,7 +62,7 @@ CarpoolServer::Application.routes.draw do
   #     resources :products
   #   end
 
-  namespace :api do
+  namespace :api, defaults: {format: :js} do
     namespace :v1 do
       resources :contacts
     end
