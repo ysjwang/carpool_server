@@ -1,5 +1,11 @@
 CarpoolServer::Application.routes.draw do
+  # get "contacts/create"
+  # get "contacts/show"
+  # get "contacts/index"
+  # get "contacts/edit"
   get "pages/home"
+
+  resources :contacts
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
