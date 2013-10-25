@@ -23,6 +23,15 @@ require 'spec_helper'
 
 describe User do
 
+
+  context 'factory' do
+    it 'should build a user with 5 valid contacts' do
+      user = create(:user_with_contacts)
+      expect(user).to be_valid
+      expect(user.contacts.count).to eql(5)
+    end
+  end
+
   context 'validations' do
     it 'should be valid with a first name, last name, and email' do
       user = build(:user, first_name: 'Joe', last_name: 'Smith', email: 'hello@email.com')
