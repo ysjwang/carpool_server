@@ -63,16 +63,19 @@ class API::V1::ContactsController < ApplicationController
 
   def update
     puts "I am in update!"
-    puts params.inspect
+    puts params.to_yaml
     @contact = Contact.find(params[:id])
     respond_to do |format|
       if @contact.update(contact_params)
         puts "update succeed"
         @contacts = Contact.all.order('id')
+        @contacts = @contacts.reload
         format.js { render json: @contacts, callback: params[:callback] }
       else
         puts "update failed"
         @contacts = Contact.all.order('id')
+        @contacts = @contacts.reload
+
         format.js { render json: @contacts, callback: params[:callback] }
       end
     end

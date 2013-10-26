@@ -17,6 +17,9 @@ gem 'thin'
 gem 'devise'
 
 
+gem 'rack-cors', require: 'rack/cors'
+# gem 'rack-jsonp-middleware', require: 'rack/jsonp'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
