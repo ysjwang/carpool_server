@@ -27,16 +27,37 @@ module CarpoolServer
 
     # For FactoryGirl and RSpec
     config.generators do |g|
-        g.test_framework :rspec,
-            fixtures: true,
-            view_specs: false,
-            helper_specs: false,
-            routing_specs: false,
-            controller_specs: true,
-            request_specs: false
-        g.fixture_replacement :factory_girl, dir: "spec/factories"
+      g.test_framework :rspec,
+      fixtures: true,
+      view_specs: false,
+      helper_specs: false,
+      routing_specs: false,
+      controller_specs: true,
+      request_specs: false
+      g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
 
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*' #'localhost:3000', '127.0.0.1:3000', /http:\/\/192\.168\.0\.\d{1,3}(:\d+)?/
+        # regular expressions can be used here
+
+        # resource '/file/list_all/', :headers => 'x-domain-token'
+        # resource '/file/at/*',
+        resource '*',
+        :methods => [:get, :post, :put, :delete, :options],
+        :headers => :any, #'x-domain-token',
+        :expose  => ['Some-Custom-Response-Header'],
+        :max_age => 600
+        # headers to expose
+      end
+
+      # allow do
+      #   origins '*'
+      #   resource '/public/*', :headers => :any, :methods => :get
+      # end
+    end
 
   end
 end

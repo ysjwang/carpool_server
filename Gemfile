@@ -17,6 +17,9 @@ gem 'thin'
 gem 'devise'
 
 
+gem 'rack-cors', require: 'rack/cors'
+# gem 'rack-jsonp-middleware', require: 'rack/jsonp'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -40,6 +43,9 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'factory_girl_rails', '~> 4.2.1'
+gem 'faker', '~> 1.1.2'
+
 group :development do
   gem 'annotate'
   gem 'quiet_assets'
@@ -47,11 +53,10 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14.0'
-  gem 'factory_girl_rails', '~> 4.2.1'
 end
 
 group :test do
-  gem 'faker', '~> 1.1.2'
+
   gem 'capybara', '~> 2.1.0'
   gem 'database_cleaner', '~> 1.0.1'
   gem 'launchy', '~> 2.3.0'

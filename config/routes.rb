@@ -1,5 +1,11 @@
 CarpoolServer::Application.routes.draw do
+  # get "contacts/create"
+  # get "contacts/show"
+  # get "contacts/index"
+  # get "contacts/edit"
   get "pages/home"
+
+  resources :contacts
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -55,4 +61,20 @@ CarpoolServer::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+
+
+
+  namespace :api, defaults: {format: :js} do
+    namespace :v1 do
+      resources :contacts 
+     #  match '/api/v1/contacts/:id ', :controller => 'api/v1/contacts', :action => 'options', :constraints => {:method => 'OPTIONS'}, via: [:get, :post]
+
+    end
+  end
+  # get '/contacts', :controller => 'contacts', :action => 'options', :constraints => {:method => 'OPTIONS'}
+
+
+  
+
 end
