@@ -62,9 +62,19 @@ CarpoolServer::Application.routes.draw do
   #     resources :products
   #   end
 
+
+
+
   namespace :api, defaults: {format: :js} do
     namespace :v1 do
-      resources :contacts
+      resources :contacts 
+     #  match '/api/v1/contacts/:id ', :controller => 'api/v1/contacts', :action => 'options', :constraints => {:method => 'OPTIONS'}, via: [:get, :post]
+
     end
   end
+  # get '/contacts', :controller => 'contacts', :action => 'options', :constraints => {:method => 'OPTIONS'}
+
+
+  
+
 end
