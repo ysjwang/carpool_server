@@ -14,8 +14,8 @@ class API::V1::ContactsController < ApplicationController
   # text/plain.
 
   def cors_preflight_check
-    puts 'i am in preflight start'
-    puts "method is #{request.method}"
+    # puts 'i am in preflight start'
+    # puts "method is #{request.method}"
     if request.method == :options
       headers['Access-Control-Allow-Origin'] = '*'
       headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
@@ -32,11 +32,11 @@ class API::V1::ContactsController < ApplicationController
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
     headers['Access-Control-Max-Age'] = "1728000"
-    puts 'post flight works'
+    # puts 'post flight works'
   end
 
   def show
-    puts "i am in show..."
+    # puts "i am in show..."
     puts params.inspect
     @contact = Contact.find(params[:id])
     respond_with(@contact) do |format|
@@ -45,7 +45,7 @@ class API::V1::ContactsController < ApplicationController
   end
 
   def index
-    puts "I am in index!"
+    # puts "I am in index!"
     puts params.inspect
     @contacts = Contact.all.order('id')
     respond_with(@contacts) do |format|
@@ -58,11 +58,11 @@ class API::V1::ContactsController < ApplicationController
   end
 
   def options
-    puts "I am in options.."
+    # puts "I am in options.."
   end
 
   def update
-    puts "I am in update!"
+    # puts "I am in update!"
     puts params.to_yaml
     @contact = Contact.find(params[:id])
     respond_to do |format|
