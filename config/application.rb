@@ -38,6 +38,7 @@ module CarpoolServer
     end
 
 
+    # CORS Middleware to configure for AJAX
     config.middleware.use Rack::Cors do
       allow do
         origins '*' #'localhost:3000', '127.0.0.1:3000', /http:\/\/192\.168\.0\.\d{1,3}(:\d+)?/
@@ -45,10 +46,10 @@ module CarpoolServer
 
         # resource '/file/list_all/', :headers => 'x-domain-token'
         # resource '/file/at/*',
-        resource '*',
+        resource '/api/v1/*',
         :methods => [:get, :post, :put, :delete, :options],
         :headers => :any, #'x-domain-token',
-        :expose  => ['Some-Custom-Response-Header'],
+        # :expose  => ['Some-Custom-Response-Header'],
         :max_age => 600
         # headers to expose
       end
