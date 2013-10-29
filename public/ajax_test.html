@@ -1,0 +1,103 @@
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+
+  <!-- <form action="javascript:;" method="POST" onSubmit="this.action=document.getElementById('apiUrl').value + document.getElementById('contactId').value"> !-->
+ <!-- <form name="contact" action="">
+    <input type="hidden" name="_method" value="put">
+    <input type="text" name="api_url" value="http://localhost:3000/api/v1/contacts/" id="apiUrl">
+    <input type="text" name="contact[first_name]" value="HELLO">
+    <input type="text" name="contact[last_name]" value="WORLD">
+    <input type="text" name="contact[id]" value="1" id="contactId">
+    <input type="submit" value="Update" id="update_button">
+  </form>
+  !-->
+  <a href="#" id="update_button">Click here to Ajax!</a>
+
+
+
+  <div id="contact-list">
+
+  </div>
+
+  <script type="text/javascript">
+  var hostUrlBase = 'http://localhost:3000/api/v1/' 
+  //var hostUrlBase = 'http://carpoolserver.herokuapp.com/api/v1/'
+  $(document).ready(function(){
+    fetchAllContacts(hostUrlBase);
+  });
+
+  function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+      return result;
+  }
+
+  function fetchAllContacts(hostUrlBase) {
+    $.ajax({
+      //url: "http://still-plains-2001.herokuapp.com/api/v1/contacts.js",
+      url: hostUrlBase + "contacts.js",
+      dataType: "jsonp",
+      type: "GET",
+      processData: false,
+      contentType: "application/json",
+      success: function(data) {
+        $.each(data, function(i) {
+          $('#contact-list').append('Hello ' + data[i].first_name + ' ' + data[i].last_name + ' -----<a href="#" class="ajax-change-me" data-id="' + data[i].id +'">Ajax</a><br />\n');
+
+        })
+      }
+
+
+    })
+
+  }
+
+  $(function(){
+
+
+    $('#contact-list').on('click', '.ajax-change-me', function() {
+      //alert("Your id is " + $(this).data('id'));
+      //alert("Host url is " + hostUrlBase);
+      var rFirst = randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+      var rLast = randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+
+      var the_url = hostUrlBase + 'contacts/' + $(this).data('id'); //1'; //document.getElementById('apiUrl').value + document.getElementById('contactId').value;
+      var the_data = { _method: 'PUT', contact: {"first_name":rFirst, "last_name":rLast} };
+      //alert('url was ' + the_url);
+      //alert('the data was ' + the_data);
+      //alert('clicked!');
+      $.ajax({
+        type: "PUT",
+        //dataType: "json",
+        //contentType: 'application/json',
+        url: the_url,
+        data: the_data,
+        beforeSend: function(xhr)   
+        {
+          xhr.setRequestHeader("X-Http-Method-Override", "PUT");
+        },
+        success: function() {
+          //alert("Hello!");
+        }
+      });
+
+      return false;
+    });
+
+});
+
+  //var dataString = 'name='+ name + '&email=' + email + '&phone=' + phone;
+  //alert (dataString);return false;
+  
+  
+  </script>
+
+</body>
+
+</html>
