@@ -40,6 +40,7 @@ class API::V1::ContactsController < ApplicationController
     puts params.inspect
     @contact = Contact.find(params[:id])
     respond_with(@contact) do |format|
+      format.html { render json: @contact }
       format.js { render json: @contact, callback: params[:callback] }
     end
   end
@@ -54,12 +55,12 @@ class API::V1::ContactsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  # def edit
+  # end
 
-  def options
-    # puts "I am in options.."
-  end
+  # def options
+  #   # puts "I am in options.."
+  # end
 
   def update
     # puts "I am in update!"
