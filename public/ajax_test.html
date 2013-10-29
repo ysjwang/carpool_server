@@ -6,54 +6,40 @@
 </head>
 <body>
 
-  <!-- <form action="javascript:;" method="POST" onSubmit="this.action=document.getElementById('apiUrl').value + document.getElementById('contactId').value"> !-->
- <!-- <form name="contact" action="">
-    <input type="hidden" name="_method" value="put">
-    <input type="text" name="api_url" value="http://localhost:3000/api/v1/contacts/" id="apiUrl">
-    <input type="text" name="contact[first_name]" value="HELLO">
-    <input type="text" name="contact[last_name]" value="WORLD">
-    <input type="text" name="contact[id]" value="1" id="contactId">
-    <input type="submit" value="Update" id="update_button">
-  </form>
-  !-->
   <a href="#" id="update_button">Click here to Ajax!</a>
-
-
 
   <div id="contact-list">
 
   </div>
 
   <script type="text/javascript">
-  var hostUrlBase = 'http://localhost:3000/api/v1/' 
+  //Base URLs to select from
+  //var hostUrlBase = 'http://localhost:3000/api/v1/' 
   //var hostUrlBase = 'http://carpoolserver.herokuapp.com/api/v1/'
-  //var hostUrlBase = 'http://still-plains-2001.herokuapp.com/api/v1/'
+  var hostUrlBase = 'http://still-plains-2001.herokuapp.com/api/v1/'
+
   $(document).ready(function(){
+    // Call fetchAllContacts on document load
     fetchAllContacts(hostUrlBase);
   });
 
-  function randomString(length, chars) {
-    var result = '';
-    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
-      return result;
-  }
-
+  
+  // fetchAllContacts
   function fetchAllContacts(hostUrlBase) {
-    // First clear
+    // First clear the list
     $('#contact-list').hide();
     $('#contact-list').html('');
 
     $.ajax({
-      //url: "http://still-plains-2001.herokuapp.com/api/v1/contacts.js",
-      url: hostUrlBase + "contacts.js",
-      dataType: "jsonp",
-      type: "GET",
+      url: hostUrlBase + "contacts.js", // URL the API is at
+      dataType: "jsonp", // type of response we are expecting
+      type: "GET", // type of HTTP verb
       processData: false,
       contentType: "application/json",
       success: function(data) {
         $.each(data, function(i) {
 
-
+          // List each JSON'd data
           $('#contact-list').append('Hello ' + data[i].first_name + ' ' + data[i].last_name + ' -----<a href="#" class="ajax-change-me" data-id="' + data[i].id +'">Ajax</a><br />\n');
 
         })
@@ -61,12 +47,20 @@
 
 
     })
+    // Show the list
     $('#contact-list').show();
 
   }
 
-  $(function(){
+  // Helper function to generate random strings
+  function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+      return result;
+  }
 
+
+  $(function(){
 
     $('#contact-list').on('click', '.ajax-change-me', function() {
 
@@ -77,7 +71,7 @@
       
       // This is JSON data
       var the_data = { 
-        _method: 'PUT', 
+        _method: 'PUT',  // Need to sneak in the request type
         contact: {
           "first_name":rFirst, 
           "last_name":rLast
@@ -85,9 +79,9 @@
       };
 
       $.ajax({
-        type: "PUT",
-        url: the_url,
-        data: the_data,
+        type: "PUT", // Request type (though it may not get read)
+        url: the_url, // API URL
+        data: the_data, // JSON'd Data
         success: function() {
           // Use this to reload the data
           fetchAllContacts(hostUrlBase);
