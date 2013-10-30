@@ -6,17 +6,27 @@
 </head>
 <body>
 
-  <a href="#" id="update_button">Click here to Ajax!</a>
+  Click server to load!:<br />
 
+  <ul>
+    <li><a href="#" class="load_index" data-host="http://localhost:3000/api/v1/">http://localhost:3000/api/v1/</a></li>
+    <li><a href="#" class="load_index" data-host="https://still-plains-2001.herokuapp.com/api/v1/">https://still-plains-2001.herokuapp.com/api/v1/</a></li>
+    <li><a href="#" class="load_index" data-host="https://carpoolserver.herokuapp.com/api/v1/">https://carpoolserver.herokuapp.com/api/v1/</a></li>
+  </ul>
+
+
+  <hr />
   <div id="contact-list">
 
   </div>
 
   <script type="text/javascript">
   //Base URLs to select from
+  /*
   var hostUrlBase = 'http://localhost:3000/api/v1/' 
-  //var hostUrlBase = 'https://carpoolserver.herokuapp.com/api/v1/'
-  //var hostUrlBase = 'https://still-plains-2001.herokuapp.com/api/v1/'
+  var hostUrlBase = 'https://carpoolserver.herokuapp.com/api/v1/'
+  var hostUrlBase = 'https://still-plains-2001.herokuapp.com/api/v1/'
+  */
 
   // For authentication purposes. API will error out without these two properly set.
   var user_email = 'devise_user@email.com';
@@ -24,8 +34,16 @@
 
   $(document).ready(function(){
     // Call fetchAllContacts on document load
-    fetchAllContacts(hostUrlBase);
+    // fetchAllContacts(hostUrlBase);
   });
+
+
+  var hostUrlBase;
+  $('.load_index').click(function() {
+    // alert('hello');
+    hostUrlBase = $(this).data('host');
+    fetchAllContacts(hostUrlBase);
+  })
 
   
   // fetchAllContacts
@@ -102,12 +120,12 @@
       //return false;
     });
 
-  });
+});
 
 
-  
-  
-  </script>
+
+
+</script>
 
 </body>
 
