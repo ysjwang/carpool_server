@@ -18,16 +18,17 @@ describe API::V1::ContactsController do
         expect(response).to be_success
       end
 
-      it 'returns with JSON' do
+      it 'returns with JSON by default' do
         contact = create(:contact, user: @contact_user)
-        get :index, format: :json
+        get :index #, format: :json
         expect(response.body).to have_content contact.to_json
       end
 
       it 'should populate @contacts with all contacts' do
         john = create(:contact, first_name: 'John', user: @contact_user)
         tom = create(:contact, first_name: 'Tom', user: @contact_user)
-        expect(assigns(:contacts)).to match(array([tom, john]))
+        get :index
+        expect(assigns(:contacts)).to match_array([tom, john])
       end
       
     end
@@ -64,12 +65,12 @@ describe API::V1::ContactsController do
       end
       context 'valid attributes' do
         it 'locates the requested @contact' do
-          patch :update, id: @contact, contact: attributes_for(:contact)
-          expect(assigns(:contact)).to eq(contact)
+          put :update, id: @contact, contact: attributes_for(:contact), format: :js
+          expect(assigns(:contact)).to eq(@contact)
         end
 
         it 'changes the contact attributes' do
-          patch :update, id: @contact, contact: attributes_for(:contact, first_name: 'Tom', last_name: 'Riddle')
+          put :update, id: @contact, contact: attributes_for(:contact, first_name: 'Tom', last_name: 'Riddle'), format: :js
           @contact.reload
           expect(@contact.first_name).to eq('Tom')
           expect(@contact.last_name).to eq('Riddle')
@@ -80,7 +81,7 @@ describe API::V1::ContactsController do
 
       context 'invalid attributes' do
         it 'does not change the contact attributes' do
-          patch :update, id: @contact, contact: attributes_for(:contact, first_name: 'Tom', last_name: nil)
+          put :update, id: @contact, contact: attributes_for(:contact, first_name: nil, last_name: nil), format: :js
           @contact.reload
           expect(@contact.first_name).to eq('Harry')
           expect(@contact.last_name).to eq('Potter')
@@ -96,7 +97,33 @@ describe API::V1::ContactsController do
 
   context 'with user incorrectly authenticated' do
 
-    it 'throws an error'
+    before :each do
+      # Ensure the testing is actually signed out
+    end
+
+    describe 'GET #index' do
+      it 'responds with a 401' do
+        get :index
+        expect(response.response_code).to eq 401
+      end
+    end
+
+    describe 'GET #show' do
+      it 'responds with a 401' do
+        contact = create(:contact, user: @contact_user)
+        get :show, id: contact
+        expect(response.response_code).to eq 401
+      end
+    end
+
+    describe 'PATCH #update' do
+      it 'responds with a 401' do
+        contact = create(:contact, first_name: 'Harry', last_name: 'Potter', user: @contact_user)
+        patch :update, id: contact, contact: attributes_for(:contact)
+        expect(response.response_code).to eq 401
+      end
+    end
+
 
   end
 
