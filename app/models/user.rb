@@ -28,4 +28,25 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
 
   has_many :contacts
+
+  before_save :ensure_authentication_token
+
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      # first, generate token
+      token = Devise.friendly_token
+
+      # break and return token, unless you find a User with the same token
+      break token unless User.where(authentication_token: token).first
+    end
+  end
+
 end
