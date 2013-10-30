@@ -4,13 +4,16 @@ describe API::V1::ContactsController do
 
   before :each do
     @contact_user = create(:user)
+
   end
 
   context 'with user correctly authenticated' do 
 
     before :each do
-      # sign the user in...
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      sign_in @contact_user
     end
+
 
     describe 'GET #index' do
       it 'returns http success' do
@@ -24,6 +27,7 @@ describe API::V1::ContactsController do
         expect(response.body).to have_content contact.to_json
       end
 
+      # TODO: Change this to so that it displays only that user's contacts
       it 'should populate @contacts with all contacts' do
         john = create(:contact, first_name: 'John', user: @contact_user)
         tom = create(:contact, first_name: 'Tom', user: @contact_user)
@@ -76,7 +80,7 @@ describe API::V1::ContactsController do
           expect(@contact.last_name).to eq('Riddle')
         end
 
-      
+
       end
 
       context 'invalid attributes' do
