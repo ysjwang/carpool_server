@@ -1,5 +1,7 @@
 class API::V1::ContactsController < ApplicationController
 
+  force_ssl unless Rails.env.development?
+  
   respond_to :html, :xml, :json, :js
 
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/javascript' || c.request.format == 'application/json' }
