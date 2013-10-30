@@ -22,7 +22,7 @@ class API::V1::ContactsController < ApplicationController
       headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version'
       headers['Access-Control-Max-Age'] = '1728000'
       render :text => '', :content_type => 'text/plain'
-      puts 'preflight works'
+      # puts 'preflight works'
     end
   end
 
@@ -37,45 +37,49 @@ class API::V1::ContactsController < ApplicationController
 
   def show
     # puts "i am in show..."
-    puts params.inspect
+    # puts params.inspect
     @contact = Contact.find(params[:id])
     respond_with(@contact) do |format|
+      format.html { render json: @contact }
       format.js { render json: @contact, callback: params[:callback] }
     end
   end
 
   def index
     # puts "I am in index!"
-    puts params.inspect
+    # puts params.inspect
     @contacts = Contact.all.order('id')
     respond_with(@contacts) do |format|
-      format.html { render json: Contact.all }
+      format.html { render json: @contacts }
       format.js  { render json: @contacts, callback: params[:callback] }
     end
   end
 
-  def edit
-  end
+  # def edit
+  # end
 
-  def options
-    # puts "I am in options.."
-  end
+  # def options
+  #   # puts "I am in options.."
+  # end
 
   def update
     # puts "I am in update!"
-    puts params.to_yaml
+    # puts params.to_yaml
     @contact = Contact.find(params[:id])
     respond_to do |format|
       if @contact.update(contact_params)
-        puts "update succeed"
-        @contacts = Contact.all.order('id')
-        @contacts = @contacts.reload
-        format.js { render json: @contacts, callback: params[:callback] }
-      else
-        puts "update failed"
+        # puts "update succeed"
         @contacts = Contact.all.order('id')
         @contacts = @contacts.reload
 
+        format.html { render json: @contacts }
+        format.js { render json: @contacts, callback: params[:callback] }
+      else
+        # puts "update failed"
+        @contacts = Contact.all.order('id')
+        @contacts = @contacts.reload
+
+        format.html { render json: @contacts }
         format.js { render json: @contacts, callback: params[:callback] }
       end
     end
