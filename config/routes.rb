@@ -4,6 +4,7 @@ CarpoolServer::Application.routes.draw do
   # get "contacts/index"
   # get "contacts/edit"
   get "pages/home"
+  get "pages/token_test_user" # THIS IS FOR TESTING PURPOSES ONLY
 
   # resources :contacts
   devise_for :users
