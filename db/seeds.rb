@@ -9,3 +9,5 @@
 10.times do
   FactoryGirl::create(:user_with_contacts)
 end
+
+User.create(first_name: 'Test User First', last_name: 'Test User Last', email: 'devise_test_user@email.com', password: 'password', password_confirmation: 'password')

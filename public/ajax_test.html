@@ -5,23 +5,46 @@
 
 </head>
 <body>
+  <h3>Make sure you edit this file to change user_email and user_token to the appropriate value given by <a href="http://localhost:3000/pages/token_test_user">http://localhost:3000/pages/token_test_user</a></h3>
 
-  <a href="#" id="update_button">Click here to Ajax!</a>
+  Click server to load!:<br />
 
+  <ul>
+    <li><a href="#" class="load_index" data-host="http://localhost:3000/api/v1/">http://localhost:3000/api/v1/</a></li>
+    <li><a href="#" class="load_index" data-host="https://still-plains-2001.herokuapp.com/api/v1/">https://still-plains-2001.herokuapp.com/api/v1/</a></li>
+    <li><a href="#" class="load_index" data-host="https://carpoolserver.herokuapp.com/api/v1/">https://carpoolserver.herokuapp.com/api/v1/</a></li>
+  </ul>
+
+
+  <hr />
   <div id="contact-list">
 
   </div>
 
   <script type="text/javascript">
   //Base URLs to select from
-  //var hostUrlBase = 'http://localhost:3000/api/v1/' 
-  //var hostUrlBase = 'http://carpoolserver.herokuapp.com/api/v1/'
-  var hostUrlBase = 'http://still-plains-2001.herokuapp.com/api/v1/'
+  /*
+  var hostUrlBase = 'http://localhost:3000/api/v1/' 
+  var hostUrlBase = 'https://carpoolserver.herokuapp.com/api/v1/'
+  var hostUrlBase = 'https://still-plains-2001.herokuapp.com/api/v1/'
+  */
+
+  // For authentication purposes. API will error out without these two properly set.
+  var user_email = 'devise_test_user@email.com';
+  var user_token = 'EGGY9_VuWcXtxW-mSd7y';
 
   $(document).ready(function(){
     // Call fetchAllContacts on document load
-    fetchAllContacts(hostUrlBase);
+    // fetchAllContacts(hostUrlBase);
   });
+
+
+  var hostUrlBase;
+  $('.load_index').click(function() {
+    // alert('hello');
+    hostUrlBase = $(this).data('host');
+    fetchAllContacts(hostUrlBase);
+  })
 
   
   // fetchAllContacts
@@ -31,7 +54,7 @@
     $('#contact-list').html('');
 
     $.ajax({
-      url: hostUrlBase + "contacts.js", // URL the API is at
+      url: hostUrlBase + "contacts.js" + '?user_email=' + user_email + '&user_token=' + user_token, // URL the API is at
       dataType: "jsonp", // type of response we are expecting
       type: "GET", // type of HTTP verb
       processData: false,
@@ -67,7 +90,7 @@
       // Just random strings for testing first/last name
       var rFirst = randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
       var rLast = randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-      var the_url = hostUrlBase + 'contacts/' + $(this).data('id'); 
+      var the_url = hostUrlBase + 'contacts/' + $(this).data('id') + '?user_email=' + user_email + '&user_token=' + user_token; 
       
       // This is JSON data
       var the_data = { 
@@ -98,12 +121,12 @@
       //return false;
     });
 
-  });
+});
 
 
-  
-  
-  </script>
+
+
+</script>
 
 </body>
 
