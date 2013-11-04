@@ -19,8 +19,8 @@ development:
   encoding: unicode
   database: carpool_server_development
   pool: 5
-  username: carpool_server
-  password:
+  username: railsapps
+  password: railsapps111
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -48,13 +48,13 @@ test:
   encoding: unicode
   database: carpool_server_test
   pool: 5
-  username: carpool_server
-  password:
+  username: railsapps
+  password: railsapps111
 
 production:
   adapter: postgresql
   encoding: unicode
   database: carpool_server_production
   pool: 5
-  username: carpool_server
-  password:
+  username: railsapps
+  password: railsapps111

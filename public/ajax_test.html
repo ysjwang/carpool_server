@@ -17,6 +17,7 @@
 
 
   <hr />
+  <a href="#" id="create-contact">Create a new contact</a><br /><hr />
   <div id="contact-list">
 
   </div>
@@ -31,8 +32,8 @@
 
   // For authentication purposes. API will error out without these two properly set.
   var user_email = 'devise_test_user@email.com';
-  // var user_token = 'EGGY9_VuWcXtxW-mSd7y'; // for still-plains
-  var user_token = 'ZYpfE4tTXtyoDzohDoHQ' // for carpoolserver
+  var user_token = 'EGGY9_VuWcXtxW-mSd7y'; // for still-plains
+  // var user_token = 'QDV6uUYsbsBLq7ppDVed' // for carpoolserver
 
   $(document).ready(function(){
     // Call fetchAllContacts on document load
@@ -85,6 +86,37 @@
 
 
   $(function(){
+
+    $('#create-contact').click(function() {
+      // create a contact
+      var rFirst = randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+      var rLast = randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+      var the_url = hostUrlBase + 'contacts/' + '?user_email=' + user_email + '&user_token=' + user_token;
+      
+
+      var the_data = {
+        _method: 'POST',
+        contact: {
+          "first_name":rFirst,
+          "last_name":rLast
+        }
+      };
+
+      $.ajax({
+        type: "POST", // POST request
+        url: the_url,
+        data: the_data,
+        success: function() {
+          fetchAllContacts(hostUrlBase);
+        }
+      });
+
+
+
+    });
+
+    
+
 
     $('#contact-list').on('click', '.ajax-change-me', function() {
 

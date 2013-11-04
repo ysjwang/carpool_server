@@ -84,6 +84,31 @@ class API::V1::ContactsController < ApplicationController
     end
   end
 
+  def create
+    puts "I AM IN CREATE"
+    @user = User.find_by_email(params[:user_email])
+    @contact = Contact.new(contact_params)
+    @contact.user = @user
+    puts "Contact is " + @contact.to_yaml
+    respond_to do |format|
+      if @contact.save!
+        @contacts = Contact.all.order('id')
+        @contacts = @contacts.reload
+
+        format.html { render json: @contacts }
+        format.js { render json: @contacts, callback: params[:callback] }
+      else
+        @contacts = Contact.all.order('id')
+        @contacts = @contacts.reload
+
+        format.html { render json: @contacts }
+        format.js { render json: @contacts, callback: params[:callback] }
+
+      end
+
+    end
+  end
+
 
 
   private
